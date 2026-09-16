@@ -6,6 +6,12 @@ using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
 using Testcontainers.MongoDb;
 using Testcontainers.MsSql;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Claims.Validators;
+using Claims;
+using Claims.Services;
+using Claims.Auditing;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +51,12 @@ builder.Services.AddDbContext<ClaimsContext>(options =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<CoverValidator>();
+
+builder.Services.AddSingleton<AuditQueue>();
+builder.Services.AddHostedService<AuditBackgroundService>();
 
 var app = builder.Build();
 
