@@ -1,6 +1,6 @@
 Claims & Covers API 
 
-This is an refactored and extended implementation for the Claims API technical assessment.
+This is implementation for the Claims API technical assessment.
 
 Key Improvements & Refactoring
 
